@@ -41,7 +41,7 @@ The same data is available through a hosted MCP server and a JSON REST API. This
 - Base URL: `https://api.equibles.com/v1`. OpenAPI spec: `https://api.equibles.com/openapi/v1.json`.
 - Every request needs an API key (it starts with `eq_`). Read it from the `EQUIBLES_API_KEY` environment variable and send it as `Authorization: Bearer $EQUIBLES_API_KEY`. Never put the key in the URL or print it.
 - A request without a key returns HTTP 401 with `"code": "unauthorized"`. That means a key is needed, not that the data is missing.
-- Responses are JSON with camelCase fields and `yyyy-MM-dd` dates. Paged endpoints return `data` plus `meta` (`limit`, `offset`, `count`, `hasMore`, `total`).
+- Responses are JSON with camelCase fields and `yyyy-MM-dd` dates. Paged endpoints return `data` plus `meta` (`limit`, `offset`, `count`, `hasMore`).
 - Errors share one shape: `{"error": {"code", "message", "status"}}`.
 
 ### Plans
@@ -92,7 +92,7 @@ curl -s -H "Authorization: Bearer $EQUIBLES_API_KEY" \
   | jq '[.data[] | select(.isOpenMarketTrade) | {transactionDate, insiderName, role, transactionType, shares, pricePerShare, value}]'
 ```
 
-Filter on `isOpenMarketTrade`. `transactionType` also labels awards, exercises and tax withholding as Buy or Sell, which are not conviction trades.
+Filter on `isOpenMarketTrade`. `transactionType` also labels conversions, tax withholding and expirations as Buy or Sell, and those are not conviction trades.
 
 ### Example 2: Top 13F holders
 
